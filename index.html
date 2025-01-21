@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gothic Task Management System</title>
+  <style>
+    /* General Styling */
+    body {
+      font-family: "Georgia", serif;
+      margin: 0;
+      padding: 0;
+      background: #000000;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 1.5rem;
+      text-align: center;
+      border-bottom: 3px solid #ff0000;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      color: #ff0000;
+      text-shadow: 2px 2px 5px #000;
+    }
+
+    nav ul {
+      list-style-type: none;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      margin: 1rem 0 0;
+    }
+
+    nav ul li {
+      margin: 0 1rem;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #ff0000;
+      font-weight: bold;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: #ffffff;
+    }
+
+    main {
+      flex-grow: 1;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    section {
+      background: rgba(0, 0, 0, 0.9);
+      margin: 1rem 0;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(255, 0, 0, 0.4);
+    }
+
+    h2 {
+      margin-top: 0;
+      color: #ff0000;
+      text-shadow: 1px 1px 3px #000;
+    }
+
+    form label {
+      margin: 0.5rem 0 0.2rem;
+      display: block;
+    }
+
+    form input, form textarea, form select, form button {
+      width: 100%;
+      padding: 0.7rem;
+      margin-bottom: 1rem;
+      border: none;
+      border-radius: 5px;
+    }
+
+    form input, form textarea, form select {
+      background-color: #222;
+      color: #fff;
+    }
+
+    form button {
+      background-color: #ff0000;
+      color: #ffffff;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    form button:hover {
+      background-color: #aa0000;
+    }
+
+    .task-list ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .task-list ul li {
+      background: rgba(255, 255, 255, 0.1);
+      margin: 0.5rem 0;
+      padding: 1rem;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .task-list button {
+      background: #f05454;
+      border: none;
+      color: #ffffff;
+      padding: 0.3rem 0.8rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .task-list button:hover {
+      background: #d94343;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.8);
+      border-top: 3px solid #ff0000;
+    }
+
+    footer p {
+      margin: 0;
+      color: #ff0000;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      nav ul li {
+        margin: 0.5rem 0;
+      }
+    }
+
+    /* Focus Styles */
+    input:focus, select:focus, textarea:focus, button:focus {
+      outline: 2px solid #ff0000;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <h1>Task Management System</h1>
+    <nav>
+      <ul>
+        <li><a href="#" onclick="showSection('dashboard')">Dashboard</a></li>
+        <li><a href="#" onclick="showSection('tasks')">Tasks</a></li>
+        <li><a href="#" onclick="showSection('profile')">Profile</a></li>
+        <li><a href="#" onclick="showSection('settings')">Settings</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+<!-- Dashboard Section -->
+<section id="dashboard">
+  <h2>Welcome to Your Task Manager</h2>
+  <p><b><i>Manage your tasks efficiently, track progress, and achieve your goals.</b></i></p>
+
+ 
+
+  <!-- Upcoming Tasks -->
+  <div class="upcoming-tasks">
+    <h3>Upcoming Tasks</h3>
+    <ul id="upcomingTasksList">
+      <!-- Upcoming tasks will be dynamically listed here -->
+    </ul>
+  </div>
+
+  <!-- Task Statistics (Bar or Pie Chart Placeholder) -->
+  <div class="task-stats">
+    <h3>Task Completion Stats</h3>
+    <div id="taskCompletionChart">
+      <!-- Placeholder for a chart like progress bars or a pie chart -->
+      <p>Chart/Graph Placeholder</p>
+    </div>
+  </div>
+
+  <!-- Recent Activity -->
+  <div class="recent-activity">
+    <h3>Recent Activity</h3>
+    <ul id="recentActivityList">
+      <!-- List of recent task updates will go here -->
+    </ul>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions">
+    <button onclick="showSection('tasks')">Add New Task</button>
+    <button onclick="clearCompletedTasks()">Clear Completed Tasks</button>
+    <button onclick="filterTasks('pending')">Show Pending Tasks</button>
+  </div>
+</section>
+
+
+    <!-- Tasks Section -->
+    <section id="tasks" class="hidden">
+      <h2>Tasks</h2>
+      <div>
+        <button onclick="filterTasks('all')">Show All</button>
+        <button onclick="filterTasks('completed')">Show Completed</button>
+        <button onclick="filterTasks('pending')">Show Pending</button>
+        <button onclick="sortTasksByPriority()">Sort by Priority</button>
+      </div>
+      <form onsubmit="addTask(event)">
+        <label for="task">New Task:</label>
+        <input type="text" id="task" placeholder="Enter your task here" required>
+        <label for="priority">Priority:</label>
+        <select id="priority" required>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+        <button type="submit">Add Task</button>
+      </form>
+      <div class="task-list">
+        <ul id="task-list">
+          <!-- Tasks will dynamically appear here -->
+        </ul>
+      </div>
+    </section>
+
+    <!-- Profile Section -->
+    <section id="profile" class="hidden">
+      <h2>Your Profile</h2>
+      <form onsubmit="saveProfile(event)">
+        <label for="username">Username:</label>
+        <input type="text" id="username" placeholder="Enter your username" required>
+        <label for="email">Email:</label>
+        <input type="email" id="email" placeholder="Enter your email" required>
+        <button type="submit">Save Profile</button>
+      </form>
+    </section>
+
+<!-- Settings Section -->
+<section id="settings" class="hidden">
+  <h2>Settings</h2>
+  <form onsubmit="saveSettings(event)">
+    <!-- Theme Selection -->
+    <label for="theme">Theme:</label>
+    <select id="theme">
+      <option value="dark">Dark Gothic</option>
+      <option value="light">Light Theme</option>
+    </select>
+
+    <!-- Task Sorting -->
+    <label for="taskSort">Sort Tasks By:</label>
+    <select id="taskSort">
+      <option value="priority">Priority</option>
+      <option value="dueDate">Due Date</option>
+      <option value="status">Status</option>
+    </select>
+
+    <!-- Notification Settings -->
+    <label for="notifications">Enable Notifications:</label>
+    <select id="notifications">
+      <option value="enabled">Enabled</option>
+      <option value="disabled">Disabled</option>
+    </select>
+
+    <!-- Task View Preferences -->
+    <label for="taskView">Task View:</label>
+    <select id="taskView">
+      <option value="list">List View</option>
+      <option value="board">Board View</option>
+    </select>
+
+    <button type="submit">Save Settings</button>
+  </form>
+</section>
+
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Gothic Task Management System</p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    let filteredTasks = 'all';
+
+    function showSection(sectionId) {
+      document.querySelectorAll('section').forEach(section => section.classList.add('hidden'));
+      document.getElementById(sectionId).classList.remove('hidden');
+    }
+
+    function renderTasks() {
+      const taskList = document.getElementById('task-list');
+      taskList.innerHTML = '';
+      const filtered = tasks.filter(task => {
+        if (filteredTasks === 'completed') return task.completed;
+        if (filteredTasks === 'pending') return !task.completed;
+        return true;
+      });
+      filtered.forEach((task, index) => {
+        const taskItem = document.createElement('li');
+        taskItem.innerHTML = `
+          <span style="text-decoration: ${task.completed ? 'line-through' : 'none'}">${task.description} (Priority: ${task.priority})</span>
+          <button onclick="toggleTaskStatus(${index})">${task.completed ? 'Undo' : 'Complete'}</button>
+          <button onclick="editTask(${index})">Edit</button>
+          <button onclick="deleteTask(${index})">Delete</button>
+        `;
+        taskList.appendChild(taskItem);
+      });
+    }
+
+    function addTask(event) {
+      event.preventDefault();
+      const taskDescription = document.getElementById('task').value;
+      const priority = document.getElementById('priority').value;
+      tasks.push({ description: taskDescription, priority, completed: false });
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+      renderTasks();
+      document.getElementById('task').value = '';
+    }
+
+    function toggleTaskStatus(index) {
+      tasks[index].completed = !tasks[index].completed;
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+      renderTasks();
+    }
+
+    function editTask(index) {
+      const newDescription = prompt('Edit Task:', tasks[index].description);
+      if (newDescription) {
+        tasks[index].description = newDescription;
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        renderTasks();
+      }
+    }
+
+    function deleteTask(index) {
+      tasks.splice(index, 1);
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+      renderTasks();
+    }
+
+    function filterTasks(filter) {
+      filteredTasks = filter;
+      renderTasks();
+    }
+
+    function sortTasksByPriority() {
+      tasks.sort((a, b) => {
+        const priorities = { low: 1, medium: 2, high: 3 };
+        return priorities[b.priority] - priorities[a.priority];
+      });
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+      renderTasks();
+    }
+
+    function saveProfile(event) {
+      event.preventDefault();
+      alert('Profile saved!');
+    }
+
+    function saveSettings(event) {
+      event.preventDefault();
+      const theme = document.getElementById('theme').value;
+      document.body.classList.toggle('dark', theme === 'dark');
+      alert('Settings saved!');
+    }
+
+    // Initialize the page
+    renderTasks();
+  </script>
+</body>
+</html>
